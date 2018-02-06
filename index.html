@@ -1,12 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- scriptタグの順番を気にせんといかんのは少ししんどい -->
     <script src="http://localhost:3000/di.js"></script>
     <script>
-      console.log(DiVariable)
+      const InjectedClass = ((DiValue) => {
+        return class {
+          hoge() {
+            console.log(DiValue)
+          }
+        }
+      })(DiVariable)
+      
+      const instance = new InjectedClass()
+      instance.hoge()
     </script>
   </head>
   <body>
-    gya-n
+    DIしてみた
   </body>
 </html>
+
+<!-- apiサーバがjsも作成する羽目になるので負荷も少し心配 -->
