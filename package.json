@@ -1,0 +1,24 @@
+{
+  "name": "go-template-playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "template.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rchaser53/go-template-playground.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rchaser53/go-template-playground/issues"
+  },
+  "homepage": "https://github.com/rchaser53/go-template-playground#readme",
+  "devDependencies": {
+    "axios": "^0.17.1",
+    "express": "^4.16.2"
+  }
+}
