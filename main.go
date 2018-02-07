@@ -3,8 +3,9 @@ package main
 import (
 	"net/http"
 
-	"html/template"
-	"os"
+	"bytes"
+	"io/ioutil"
+	"text/template"
 
 	"github.com/labstack/echo"
 )
@@ -13,25 +14,20 @@ type Person struct {
 	UserName string
 }
 
+var tpl bytes.Buffer
+
 func main() {
 	e := echo.New()
 	e.GET("/abc.js", func(c echo.Context) error {
 
-		file, err := os.Open(`template.js`)
-		if err != nil {
-			// Openエラー処理
-		}
-		defer file.Close()
+		bs, _ := ioutil.ReadFile(`templateForGo.txt`)
 
-		t := template.New("template.js")
-		t, _ = t.Parse("hello {{.UserName}}!")
-		p := Person{UserName: "Astaxie"}
-		t.Execute(os.Stdout, p)
+		t := template.New("")
+		t, _ = t.Parse(string(bs))
 
-		output := "testmessage"
-		file.Write(([]byte)(output))
+		t.Execute(&tpl, Person{UserName: "nyan"})
 
-		return c.String(http.StatusOK, "Hello, World!")
+		return c.String(http.StatusOK, tpl.String())
 	})
 	e.Logger.Fatal(e.Start(":1323"))
 }
