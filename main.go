@@ -3,7 +3,6 @@ package main
 import (
 	"net/http"
 
-	"bytes"
 	"io/ioutil"
 	"text/template"
 
@@ -14,20 +13,21 @@ type Person struct {
 	UserName string
 }
 
-var tpl bytes.Buffer
-
 func main() {
 	e := echo.New()
 	e.GET("/abc.js", func(c echo.Context) error {
+		var tpl []byte
 
+		response := c.Response()
 		bs, _ := ioutil.ReadFile(`templateForGo.txt`)
 
 		t := template.New("")
 		t, _ = t.Parse(string(bs))
 
-		t.Execute(&tpl, Person{UserName: "nyan"})
+		t.Execute(response, Person{UserName: "nyan"})
+		_, _ = response.Write(tpl)
 
-		return c.String(http.StatusOK, tpl.String())
+		return c.String(http.StatusOK, string(tpl))
 	})
 	e.Logger.Fatal(e.Start(":1323"))
 }
