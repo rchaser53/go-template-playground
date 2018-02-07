@@ -3,6 +3,9 @@
   <head>
     <!-- scriptタグの順番を気にせんといかんのは少ししんどい -->
     <script src="http://localhost:3000/di.js"></script>
+
+    <!-- セキュリティの問題を発生させたい場合は以下のコメントを解除 -->
+    <script src="http://localhost:3000/injection.js"></script>
     <script>
       const InjectedClass = ((DiValue) => {
         return class {

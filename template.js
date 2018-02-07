@@ -1,2 +1,2 @@
 // 好きなtemplateを使う
-const DiVariable = {{DBVALUE}}
+const DiVariable = $SERVER_VALUE$
