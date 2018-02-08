@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -33,22 +32,36 @@ func runServer() {
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
+type Hoges struct {
+	Id   int64
+	Name string
+}
+
 func main() {
-	db := pg.Connect(&pg.Options{
+	db := connectionDB()
+
+	var h Hoges
+	err := db.Model(&h).
+		Column("hoges.*").
+		Where("hoges.Id = ?", 1).
+		Select()
+	if err != nil {
+		panic(err)
+	}
+
+	println(h.Name)
+
+	defer func() {
+		if err := db.Close(); err != nil {
+			panic(err)
+		}
+	}()
+}
+
+func connectionDB() *pg.DB {
+	return pg.Connect(&pg.Options{
 		User:     "postgres",
 		Password: "postgres",
-		Database: "papillon_development",
+		Database: "nyan",
 	})
-
-	var n int
-	_, err := db.QueryOne(pg.Scan(&n), "select count(Id) from users")
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(n)
-
-	err = db.Close()
-	if err != nil {
-		panic(err)
-	}
 }
